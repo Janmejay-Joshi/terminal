@@ -17,7 +17,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <Head title="Home" />
+      <Head title="Janmejay's Terminal" />
 
       <main
         className="flex flex-col bg-gray-800 h-screen w-screen overflow-hidden"
