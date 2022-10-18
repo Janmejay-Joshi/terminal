@@ -24,7 +24,7 @@ const Input: React.FC<Props> = (props: Props) => {
     props.scrollRef.current?.scrollIntoView({
       behavior: "smooth",
     });
-  }, [history]);
+  }, [history, props.scrollRef]);
 
   const onSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const commands: string[] = history
