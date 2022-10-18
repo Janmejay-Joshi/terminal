@@ -1,14 +1,36 @@
-import React, { MutableRefObject, useState } from "react";
+import React, { MutableRefObject, useEffect, useState } from "react";
+import { autoCompletion } from "../../../utils/autoCompletion";
 import { commandExists } from "../../../utils/commandExists";
 import { useShell } from "../../../utils/shellProvider";
 
-type Props = { inputRef: MutableRefObject<HTMLInputElement | null> };
+type Props = {
+  inputRef: MutableRefObject<HTMLInputElement | null>;
+  scrollRef: MutableRefObject<HTMLDivElement | null>;
+};
 
 const Input: React.FC<Props> = (props: Props) => {
   const [value, setValue] = useState<string>("");
-  const { setCommand, setHistory, clearHistory } = useShell();
+  const {
+    setCommand,
+    setHistory,
+    clearHistory,
+    setLastCommandIndex,
+    lastCommandIndex,
+    command,
+    history,
+  } = useShell();
+
+  useEffect(() => {
+    props.scrollRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [history]);
 
   const onSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const commands: string[] = history
+      .map(({ command }) => command)
+      .filter((value: string) => value);
+
     if (event.key === "c" && event.ctrlKey) {
       event.preventDefault();
 
@@ -20,7 +42,13 @@ const Input: React.FC<Props> = (props: Props) => {
     if (event.key === "l" && event.ctrlKey) {
       event.preventDefault();
 
-      clearHistory();
+      clearHistory("");
+    }
+
+    if (event.key === "Tab") {
+      event.preventDefault();
+
+      autoCompletion(value, setValue);
     }
 
     if (event.key === "Enter" || event.code === "13") {
@@ -28,6 +56,39 @@ const Input: React.FC<Props> = (props: Props) => {
 
       setCommand(value);
       setValue("");
+    }
+
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+
+      if (!commands.length) {
+        return;
+      }
+
+      const index: number = lastCommandIndex + 1;
+
+      if (index <= commands.length) {
+        setLastCommandIndex(index);
+        setValue(commands[commands.length - index]);
+      }
+    }
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+
+      if (!commands.length) {
+        return;
+      }
+
+      const index: number = lastCommandIndex - 1;
+
+      if (index > 0) {
+        setLastCommandIndex(index);
+        setValue(commands[commands.length - index]);
+      } else {
+        setLastCommandIndex(0);
+        setValue("");
+      }
     }
   };
 

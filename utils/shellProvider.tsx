@@ -5,17 +5,28 @@ import * as bin from "./bin";
 interface ShellContextInterface {
   history: Array<HistoryInterface>;
   command: string;
-  // lastCommandIndex: number;
+  lastCommandIndex: number;
 
   setHistory: (output: string) => void;
   setCommand: (command: string) => void;
-  // setLastCommandIndex: (index: number) => void;
+  setLastCommandIndex: (index: number) => void;
   clearHistory: (output: string) => void;
 
   execute: (command: string) => Promise<void>;
 }
 
-const ShellContext = createContext<ShellContextInterface>(null);
+const ShellContext = createContext<ShellContextInterface>({
+  history: [{ command: "", id: 1, output: "" }],
+  command: "",
+  lastCommandIndex: 0,
+
+  setHistory: () => {},
+  setCommand: () => {},
+  clearHistory: () => {},
+  setLastCommandIndex: () => {},
+
+  execute: async () => {},
+});
 
 export const useShell = () => useContext(ShellContext);
 
@@ -27,6 +38,7 @@ export const ShellProvider: React.FC<ShellProviderProps> = ({ children }) => {
   const [init, setInit] = useState<boolean>(true);
   const [history, _setHistory] = useState<Array<HistoryInterface>>([]);
   const [command, _setCommand] = useState<string>("");
+  const [lastCommandIndex, setLastCommandIndex] = React.useState<number>(0);
 
   useEffect(() => {
     setCommand("banner");
@@ -73,7 +85,7 @@ export const ShellProvider: React.FC<ShellProviderProps> = ({ children }) => {
           setHistory(`Command not found: ${cmd}. Try 'help' to get started.`);
         } else {
           try {
-            const output = await bin[cmd](args);
+            const output = await (bin as any)[cmd](args);
 
             setHistory(output);
           } catch (error: any) {
@@ -89,9 +101,11 @@ export const ShellProvider: React.FC<ShellProviderProps> = ({ children }) => {
       value={{
         history,
         command,
+        lastCommandIndex,
         setHistory,
-        clearHistory,
         setCommand,
+        setLastCommandIndex,
+        clearHistory,
         execute,
       }}
     >

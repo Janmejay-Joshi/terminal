@@ -7,6 +7,7 @@ import { useShell } from "../utils/shellProvider";
 
 const Home: NextPage = () => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const onClickAnywhere = () => {
     if (inputRef.current) inputRef.current.focus();
@@ -24,7 +25,8 @@ const Home: NextPage = () => {
       >
         <div className="scrollbar-hide h-full m-2 p-3 rounded border-2 border-slate-600 overflow-y-scroll">
           <History history={history} />
-          <Input inputRef={inputRef} />
+          <Input inputRef={inputRef} scrollRef={scrollRef} />
+          <div ref={scrollRef} />
         </div>
       </main>
     </>
