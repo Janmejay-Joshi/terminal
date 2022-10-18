@@ -83,6 +83,13 @@ export const projects = (args?: string[]): string => {
   `;
 };
 
+export const about = (args?: string[]): string => {
+  // TODO:
+  return `
+  -- TODO --
+  `;
+};
+
 export const blogs = (args?: string[]): string => {
   // TODO:
   return `
