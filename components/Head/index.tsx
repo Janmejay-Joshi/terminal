@@ -47,7 +47,7 @@ const _Head = (props: Props) => {
         content="Janmejay Joshi, Janmejay, Terminal, Developer, Portfolio, Personal, JJ Codes, JJ"
       />
       <meta name="robots" content="index, follow" />
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       <meta name="language" content="English" />
       <meta name="author" content="Janmejay Joshi" />
     </Head>

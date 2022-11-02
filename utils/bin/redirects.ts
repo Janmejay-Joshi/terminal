@@ -43,3 +43,12 @@ export const gui = (args?: string[]): string => {
 
   return "Opening GUI Version...";
 };
+
+export const blog = (args?: string[]): string => {
+  // TODO:
+  setTimeout(function () {
+    window.open("https://janmejay.vercel.app/posts", "_blank");
+  }, 1500);
+
+  return "Opening Blog...";
+};
