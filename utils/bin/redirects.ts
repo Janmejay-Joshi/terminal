@@ -38,7 +38,7 @@ export const social = async (args?: string[]): Promise<string> => {
 export const gui = (args?: string[]): string => {
   // TODO:
   setTimeout(function () {
-    window.open("https://janmejay.vercel.app/", "_blank");
+    window.open("https://janmejayjoshi.vercel.app/", "_blank");
   }, 1500);
 
   return "Opening GUI Version...";
@@ -47,7 +47,7 @@ export const gui = (args?: string[]): string => {
 export const blog = (args?: string[]): string => {
   // TODO:
   setTimeout(function () {
-    window.open("https://janmejay.vercel.app/posts", "_blank");
+    window.open("https://janmejayjoshi.vercel.app/posts", "_blank");
   }, 1500);
 
   return "Opening Blog...";
